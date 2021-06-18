@@ -39,13 +39,13 @@
             <label for="emissao_2via">Emissão 2° via: </label>
             <input type="number" name="emissao_2via" id="emissao_2via" min="0" max="99.99" step="0.01" placeholder="R$ 00.00"><br>
             <label for="total">Total*: </label>
-            <input type="number" name="total" id="total" min="0" max="999.99" step="0.01" placeholder="R$ 00.00"><br>
+            <input type="number" name="total" id="total" min="1" max="999.99" step="0.01" placeholder="R$ 00.00"><br>
             <label for="leit_anterior">Leitura anterior*: </label>
             <input type="number" name="leit_anterior" id="leit_anterior" min="1" max="99999"  placeholder="00000"><br>
             <label for="leit_atual">Leitura atual*: </label>
             <input type="number" name="leit_atual" id="leit_atual" min="1" max="99999"  placeholder="00000"><br>
             <label for="consumo_kWh">Consumo kWh*: </label>
-            <input type="number" name="consumo_kWh" id="consumo_kWh" min="1" max="999"  placeholder="000"><br>
+            <input type="number" name="consumo_kWh" id="consumo_kWh" min="1" max="255"  placeholder="000"><br>
             <fieldset><legend>Situação:</legend>
                 <input type="radio" name="situacao" id="p" value="P">
                 <label for="p">Conta paga</label><br>
@@ -58,10 +58,8 @@
             <a href="register.php"><input type="button" value="Voltar" id="button"></a>
 
             <?php
-                $opc = 1;
-                $_SESSION["opc"] = $opc;
-                $pagina = "../register/energy.php";
-                $_SESSION["pagina"] = $pagina;
+                $_SESSION["opc"] = 1;
+                $_SESSION["pagina"] = "../register/energy.php";
             ?>
         </form>
 

@@ -18,9 +18,9 @@ if (isset($_POST["data_conta"]))
         {
 
             if (empty($_POST["data_conta"]) || empty($_POST["leit_atual"]) || 
-            empty($_POST["leit_anterior"]) || empty($_POST["consumo_kWh"]) || 
-            empty($_POST["tarifa_kWh"]) || empty($_POST["ilum_public"]) || 
-            empty($_POST["valor_consumo"]) || empty($_POST["total"]))
+                empty($_POST["leit_anterior"]) || empty($_POST["consumo_kWh"]) || 
+                empty($_POST["tarifa_kWh"]) || empty($_POST["ilum_public"]) || 
+                empty($_POST["valor_consumo"]) || empty($_POST["total"]))
             {
                 $_SESSION["erro"] = "Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.";
                 header("Location: " . $_SESSION["pagina"]);

@@ -65,14 +65,51 @@
         function execQuery($stmt)
         {
 
-            if ($stmt -> execute())
+            try
             {
+                $stmt -> execute();
                 $_SESSION["cadastro"] = 1;
             }
-            else
+            catch (PDOException $e)
             {
-                $_SESSION["erro"] = $stmt -> error;
+                // $_SESSION["erro"] = $e -> getMessage();
+                $_SESSION["erro"] = msgErroSql($e -> getCode());
             }
+
+        }
+
+        function msgErroSql($codeErro)
+        {
+
+            switch ($codeErro)
+            {
+                case 0:
+                    $msg = "DSN ausente ou inválido.";
+                    break;
+                case 2002:
+                    $msg = "HOST ausente ou inválido.";
+                    break;
+                case 1045:
+                    $msg = "USER ou PASS ausente ou inválido.";
+                    break;
+                case 1049:
+                    $msg = "DBNAME ausente ou inválida.";
+                    break;
+                case "42S02":
+                    $msg = "TABLE ausente ou inválida.";
+                    break;
+                case "42S22":
+                    $msg = "Algum dos campos passados na query não existe ou o seu nome está incorreto.";
+                    break;
+                case "21S01":
+                    $msg = "Existem algum campo ausente ou incorreto na query.";
+                    break;
+                case "HY093" || 42000:
+                    $msg = "Existe algum parâmetro ausente ou incorreto na query.";
+                    break;
+            }
+
+            return $msg;
 
         }
 

@@ -9,8 +9,8 @@
     {
         function getConnection()
         {
-            $DSN = "mysql:host=";
-            $HOST = "127.0.0.1";
+            $DSN = "mysql:";
+            $HOST = "host=127.0.0.1";
             $DBNAME = "contas";
             $USER = "root";
             $PASS = "@carlos10";
@@ -21,9 +21,13 @@
                 $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 return $conn;
             }
-            catch (PDOException $erro)
+            catch (PDOException $e)
             {
-                $_SESSION["erro"] = "Falha na conexão com o banco de dados.";
+                //Chama a função passando o código do erro do PDO como parâmetro e retorna uma mensagem de acordo com o código.
+                $_SESSION["erro"] = msgErroSql($e -> getCode());
+
+                //Mensagem genérica de erro na conexão com o BD.
+                // $_SESSION["erro"] = "Falha na conexão com o banco de dados.";
             }
             
         }
