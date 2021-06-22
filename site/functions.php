@@ -73,12 +73,12 @@
             catch (PDOException $e)
             {
                 // $_SESSION["erro"] = $e -> getMessage();
-                $_SESSION["erro"] = msgErroSql($e -> getCode());
+                $_SESSION["erro"] = msgErroSql($e -> getCode(), $e);
             }
 
         }
 
-        function msgErroSql($codeErro)
+        function msgErroSql($codeErro, $e)
         {
 
             switch ($codeErro)
@@ -104,9 +104,14 @@
                 case "21S01":
                     $msg = "Existem algum campo ausente ou incorreto na query.";
                     break;
-                case "HY093" || 42000:
+                case "HY093":
                     $msg = "Existe algum parâmetro ausente ou incorreto na query.";
                     break;
+                case 42000:
+                    $msg = "Existe algum parâmetro ausente ou incorreto na query.";
+                    break;
+                default:
+                    $msg = $e -> getMessage();
             }
 
             return $msg;

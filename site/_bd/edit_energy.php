@@ -27,7 +27,7 @@ if (isset($_POST["data_conta"]))
                 exit;
             }
 
-            checarData('energia', $_POST["data_conta"]);
+            checarData("energia", $_POST["data_conta"]);
 
             checarLeitura($_POST["leit_atual"], $_POST["leit_anterior"], $_SESSION["pagina"]);
 
