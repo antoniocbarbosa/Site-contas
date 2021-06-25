@@ -27,16 +27,6 @@ if (isset($_POST["data_conta"]))
                 exit;
             }
 
-            checarData("agua", $_POST["data_conta"]);
-
-            checarLeitura($_POST["leit_atual"], $_POST["leit_anterior"], $_SESSION["pagina"]);
-
-            $sql = ("INSERT INTO agua (padrao_imovel, categoria_imovel, leit_anterior, leit_atual, volume_m3, media_semestral_m3, data_conta, valor_consumo, multa_porc, val_multa, tarifa_juros, val_juros, religacao, emissao_2via, total, situacao, observacao)
-            VALUES
-            (:padrao_imovel, :categoria_imovel, :leit_anterior, :leit_atual, :volume_m3, :media_semestral_m3, :data_conta, :valor_consumo, :multa_porc, :val_multa, :tarifa_juros, :val_juros, :religacao, :emissao_2via, :total, :situacao, :observacao)");
-
-            $stmt = $conn -> prepare($sql);
-
             $padrao_imovel = $_POST["padrao_imovel"];
             $categoria_imovel = $_POST["categoria_imovel"];
             $leit_anterior = $_POST["leit_anterior"];
@@ -54,6 +44,25 @@ if (isset($_POST["data_conta"]))
             $total = (float) $_POST["total"];
             $situacao = $_POST["situacao"];
             $observacao = addslashes(isset($_POST["observacao"]) ? trim(preg_replace("/ +/", " ", $_POST["observacao"])) : null);
+
+            checarData("agua", $data_conta);
+
+            checarLeitura($leit_atual, $leit_anterior, $_SESSION["pagina"]);
+
+            checarValor($volume_m3, $leit_atual, $leit_anterior, "Volume (m<sub>3</sub>)", $_SESSION["pagina"]);
+
+            if ($valor_consumo + $val_multa + $val_juros + $religacao + $emissao_2via != $total)
+            {
+                $_SESSION["erro"] = "O valor informado no campo Total não é iqual a soma dos valores informados nos campos Valor consumo, Valor da multa, Valor do juros, Religação e  Emissão 2° via.";
+                header("Location: " . $_SESSION["pagina"]);
+                exit;
+            }
+
+            $sql = ("INSERT INTO agua (padrao_imovel, categoria_imovel, leit_anterior, leit_atual, volume_m3, media_semestral_m3, data_conta, valor_consumo, multa_porc, val_multa, tarifa_juros, val_juros, religacao, emissao_2via, total, situacao, observacao)
+            VALUES
+            (:padrao_imovel, :categoria_imovel, :leit_anterior, :leit_atual, :volume_m3, :media_semestral_m3, :data_conta, :valor_consumo, :multa_porc, :val_multa, :tarifa_juros, :val_juros, :religacao, :emissao_2via, :total, :situacao, :observacao)");
+
+            $stmt = $conn -> prepare($sql);
 
             $stmt -> bindParam(":padrao_imovel", $padrao_imovel);
             $stmt -> bindParam(":categoria_imovel", $categoria_imovel);

@@ -78,6 +78,18 @@
 
         }
 
+        function checarValor($valor, $leit_atual, $leit_anteior, $nome_campo, $pagina)
+        {
+            
+            if ($valor != $leit_atual - $leit_anteior)
+            {
+                $_SESSION["erro"] = "O valor no campo {$nome_campo} não pode ser diferente da subtração entre os valores dos campos Leitura atual e Leitura anterior.";
+                header("Location: " . $pagina);
+                exit;
+            }
+
+        }
+
         function msgErroSql($codeErro, $e)
         {
 
