@@ -19,7 +19,8 @@ if (isset($_POST["data_conta"]))
 
             if (empty($_POST["padrao_imovel"]) || empty($_POST["categoria_imovel"]) || 
                 empty($_POST["leit_anterior"]) || empty($_POST["leit_atual"]) || 
-                empty($_POST["data_conta"]) || empty($_POST["valor_consumo"]))
+                empty($_POST["volume_m3"]) || empty($_POST["data_conta"]) || 
+                empty($_POST["valor_consumo"]) || empty($_POST["total"]))
             {
                 $_SESSION["erro"] = "Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.";
                 header("Location: " . $_SESSION["pagina"]);
@@ -40,7 +41,7 @@ if (isset($_POST["data_conta"]))
             $categoria_imovel = $_POST["categoria_imovel"];
             $leit_anterior = $_POST["leit_anterior"];
             $leit_atual = $_POST["leit_atual"];
-            $volume_m3 = $leit_atual - $leit_anterior;
+            $volume_m3 = $_POST["volume_m3"];
             $media_semestral_m3 = $_POST["media_semestral_m3"];
             $data_conta = $_POST["data_conta"];
             $valor_consumo = (float) $_POST["valor_consumo"];
@@ -50,7 +51,7 @@ if (isset($_POST["data_conta"]))
             $val_juros = (float) $_POST["val_juros"];
             $religacao = (float) $_POST["religacao"];
             $emissao_2via = (float) $_POST["emissao_2via"];
-            $total = $valor_consumo + $val_multa + $val_juros + $religacao + $emissao_2via;
+            $total = (float) $_POST["total"];
             $situacao = $_POST["situacao"];
             $observacao = addslashes(isset($_POST["observacao"]) ? trim(preg_replace("/ +/", " ", $_POST["observacao"])) : null);
 

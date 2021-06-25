@@ -29,6 +29,8 @@
             <input type="number" name="leit_anterior" id="leit_anterior" min="1" max="99999" placeholder="00000"><br>
             <label for="leit_atual">Leitura atual*: </label>
             <input type="number" name="leit_atual" id="leit_atual" min="1" max="99999" placeholder="00000"><br>
+            <label for="volume_m3">Volume (m<sub>3</sub>)*: </label>
+            <input type="number" name="volume_m3" id="volume_m3" min="1" max="255" placeholder="000"><br>
             <label for="media_semestral_m3">Média semestral (m<sub>3</sub>): </label>
             <input type="number" name="media_semestral_m3" id="media_semestral_m3" min="1" max="100" placeholder="000"><br>
             <label for="data_conta">Data conta*: </label>
@@ -47,6 +49,8 @@
             <input type="number" name="religacao" id="religacao" min="0" max="100" step="0.01" placeholder="R$ 00.00"><br>
             <label for="emissao_2via">Emissão 2° via:</label>
             <input type="number" name="emissao_2via" id="emissao_2via" min="0" max="100" step="0.01" placeholder="R$ 00.00"><br>
+            <label for="total">Total*:</label>
+            <input type="number" name="total" id="total" min="0.01" max="999.99" step="0.01" placeholder="R$ 000.00"><br><br>
             <fieldset><legend>Situação:</legend>
                 <input type="radio" name="situacao" id="p" value="P">
                 <label for="p">Conta paga</label><br>
