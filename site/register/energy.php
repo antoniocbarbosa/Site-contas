@@ -1,4 +1,4 @@
-<?php session_start(); require_once "../header.php" ?>
+<?php session_start(); require_once '../header.php' ?>
     <title>Registrar energia</title>
 </head>
 <body>
@@ -58,13 +58,13 @@
             <a href="register.php"><input type="button" value="Voltar" id="button"></a>
 
             <?php
-                $_SESSION["opc"] = 1;
-                $_SESSION["pagina"] = "../register/energy.php";
+                $_SESSION['opc'] = 1;
+                $_SESSION['pagina'] = '../register/energy.php';
             ?>
         </form>
 
         <?php
-            require_once "../functions.php";
+            require_once '../functions.php';
             checarCadastro();
         ?>
 

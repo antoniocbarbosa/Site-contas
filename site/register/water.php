@@ -1,4 +1,4 @@
-<?php session_start(); require_once "../header.php" ?>
+<?php session_start(); require_once '../header.php' ?>
     <title>Registrar água</title>
 </head>
 <body>
@@ -63,13 +63,13 @@
             <a href="register.php"><input type="button" value="Voltar" id="button"></a>
 
             <?php
-                $_SESSION["opc"] = 1;
-                $_SESSION["pagina"] = "../register/water.php";
+                $_SESSION['opc'] = 1;
+                $_SESSION['pagina'] = '../register/water.php';
             ?>
         </form>
 
         <?php
-            require_once "../functions.php";
+            require_once '../functions.php';
             checarCadastro();
         ?>
 
