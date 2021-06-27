@@ -27,16 +27,6 @@ if (isset($_POST['data_conta']))
                 exit;
             }
 
-            checarData('energia', $_POST['data_conta']);
-
-            checarLeitura($_POST['leit_atual'], $_POST['leit_anterior'], $_SESSION['pagina']);
-
-            $sql = ('INSERT INTO energia (data_conta, tarifa_band_amar, valor_band_amar, tarifa_band_verm, valor_band_verm, ilum_public, tarifa_kWh, valor_consumo, juros_mora, valor_multa, dic, fic, dmic, dicri, religacao, emissao_2via, total, leit_anterior, leit_atual, consumo_kWh, situacao, observacao)
-            VALUES
-            (:data_conta, :tarifa_band_amar, :valor_band_amar, :tarifa_band_verm, :valor_band_verm, :ilum_public, :tarifa_kWh, :valor_consumo, :juros_mora, :valor_multa, :dic, :fic, :dmic, :dicri, :religacao, :emissao_2via, :total, :leit_anterior, :leit_atual, :consumo_kWh, :situacao, :observacao)');
-
-            $stmt = $conn -> prepare($sql);
-
             $data_conta = $_POST['data_conta'];
             $tarifa_band_amar = (float) $_POST['tarifa_band_amar'];
             $valor_band_amar = (float) $_POST['valor_band_amar'];
@@ -59,6 +49,25 @@ if (isset($_POST['data_conta']))
             $consumo_kWh = $_POST['consumo_kWh'];
             $situacao = $_POST['situacao'];
             $observacao = addslashes(isset($_POST['observacao']) ? trim(preg_replace('/ +/', ' ', $_POST['observacao'])) : null);
+
+            checarData('energia', $data_conta);
+
+            checarLeitura($leit_atual, $leit_anterior, $_SESSION['pagina']);
+
+            checarValor($consumo_kWh, $leit_atual, $leit_anterior, 'Consumo kWh', $_SESSION['pagina']);
+
+            if ($valor_band_amar + $valor_band_verm + $ilum_public + $valor_consumo + $juros_mora + $valor_multa + ($dic) + ($fic) + ($dmic) + ($dicri) + $religacao + $emissao_2via != $total)
+            {
+                $_SESSION['erro'] = 'O valor informado no campo Total não é iqual a soma dos valores informados nos campos Valor bandeira amarela, Valor bandeira vermelha, Iluminação pública, Valor consumo, Juros Moratórios, Valor multa, Dic, Fic, Dmic, Dicri, Religação e Emissão 2° via.';
+                header('Location: ' . $_SESSION['pagina']);
+                exit;
+            }
+
+            $sql = ('INSERT INTO energia (data_conta, tarifa_band_amar, valor_band_amar, tarifa_band_verm, valor_band_verm, ilum_public, tarifa_kWh, valor_consumo, juros_mora, valor_multa, dic, fic, dmic, dicri, religacao, emissao_2via, total, leit_anterior, leit_atual, consumo_kWh, situacao, observacao)
+            VALUES
+            (:data_conta, :tarifa_band_amar, :valor_band_amar, :tarifa_band_verm, :valor_band_verm, :ilum_public, :tarifa_kWh, :valor_consumo, :juros_mora, :valor_multa, :dic, :fic, :dmic, :dicri, :religacao, :emissao_2via, :total, :leit_anterior, :leit_atual, :consumo_kWh, :situacao, :observacao)');
+
+            $stmt = $conn -> prepare($sql);
 
             $stmt -> bindParam(':data_conta', $data_conta);
             $stmt -> bindParam(':tarifa_band_amar', $tarifa_band_amar);
