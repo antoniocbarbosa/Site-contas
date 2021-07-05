@@ -1,4 +1,4 @@
-<?php session_start(); require_once '../header.php' ?>
+<?php session_start(); require_once '../header.php'; ?>
     <title>Registrar energia</title>
 </head>
 <body>

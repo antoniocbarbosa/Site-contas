@@ -1,0 +1,24 @@
+.edit, .delete {
+	width: 26px;
+	height: 26px;
+	margin-top: 5px;
+}
+
+.delete {
+	margin-left: 5px;
+}
+
+#btnTop {
+	position: fixed;
+	right: 30px;
+	bottom: 20px;
+	border: none;
+	display: none;
+	cursor: pointer;
+	border-radius: 100%;
+}
+
+#btnTop img {
+	width: 50px;
+	height: 50px;
+}

@@ -24,6 +24,7 @@
             catch (PDOException $e)
             {
                 //Chama a função passando o código do erro do PDO como parâmetro e retorna uma mensagem de acordo com o código.
+                // require_once '../functions.php';
                 $_SESSION['erro'] = msgErroSql($e -> getCode(), $e);
                 
                 //Mensagem genérica de erro na conexão com o BD.
