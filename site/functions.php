@@ -10,100 +10,87 @@
         
         require_once '_bd/connection.php';
 
-        function checarData($tabela, $data_conta)
+        function checarData($tabela, $data_conta, $page)
         {
             $conn = getConnection();
-            $sql = ("SELECT * FROM {$tabela} WHERE data_conta = '{$data_conta}'");
-
+            $sql = ("SELECT * FROM {$tabela} WHERE data_conta = :data_conta");
             $stmt = $conn -> prepare($sql);
+            $stmt -> bindParam(':data_conta', $data_conta);
             $stmt -> execute();
             $checarData = $stmt -> fetchAll();
 
             if (count($checarData) > 0)
             {
-                $_SESSION['erro'] = 'Já existe uma conta cadastrada com a data informada.';
-                header('Location: ' . $_SESSION['pagina']);
+                $_SESSION['error'] = 'Já existe uma conta cadastrada com a data informada.';
+                header('Location: ' . $page);
                 exit;
             }
         }
 
-        function checarLeitura($leit_atual, $leit_anteior, $pagina)
+        function checarLeitura($leit_atual, $leit_anteior, $page)
         {
-
             if ($leit_atual < $leit_anteior)
             {
-                $_SESSION['erro'] = 'A leitura atual não pode ser menor que a leitura anterior.';
-                header('Location: ' . $pagina);
+                $_SESSION['error'] = 'A leitura atual não pode ser menor que a leitura anterior.';
+                header('Location: ' . $page);
                 exit;
             }
 
             if ($leit_atual == $leit_anteior)
             {
-                $_SESSION['erro'] = 'A leitura atual não pode ser igual a leitura anterior.';
-                header('Location: ' . $pagina);
+                $_SESSION['error'] = 'A leitura atual não pode ser igual a leitura anterior.';
+                header('Location: ' . $page);
                 exit;
             }
-
         }
 
-        function checarCadastro()
+        function checarValor($valor, $leit_atual, $leit_anteior, $nome_campo, $page)
+        {
+            if ($valor != $leit_atual - $leit_anteior)
+            {
+                $_SESSION['error'] = "O valor no campo {$nome_campo} não pode ser diferente da subtração entre os valores dos campos Leitura atual e Leitura anterior.";
+                header('Location: ' . $page);
+                exit;
+            }
+        }
+
+        function checarAcao()
         {
 
-            if (isset($_SESSION['cadastro']))
+            if (isset($_SESSION['register']))
             {
                 echo '<p style="font-weight: bold;">Conta registrada com sucesso!</p>';
-				unset($_SESSION['cadastro']);
+				unset($_SESSION['register']);
             }
-            elseif (isset($_SESSION['erro']))
+            elseif (isset($_SESSION['update']))
             {
-                echo "<p style='font-weight: bold;'>{$_SESSION['erro']}</p>";
-				unset($_SESSION['erro']);
+                echo '<p style="font-weight: bold;">Conta atualizada com sucesso!</p>';
+                unset($_SESSION['update']);
             }
-
-        }
-
-        function checarExclusao()
-        {
-
-            if (isset($_SESSION['excluir']))
+            elseif (isset($_SESSION['delete']))
             {
                 echo '<p style="font-weight: bold;">Conta excluida com sucesso!</p>';
-				unset($_SESSION['excluir']);
+                unset($_SESSION['delete']);
             }
-            elseif (isset($_SESSION['erro']))
+            elseif (isset($_SESSION['error']))
             {
-                echo "<p style='font-weight: bold;'>{$_SESSION['erro']}</p>";
-				unset($_SESSION['erro']);
+                echo '<p style="font-weight: bold;">' . $_SESSION['error'] . '</p>';
+				unset($_SESSION['error']);
             }
 
         }
 
-        function execQuery($stmt, $session)
+        function execQuery($stmt, $action)
         {
-
             try
             {
                 $stmt -> execute();
-                $_SESSION[$session] = 1;
+                $_SESSION[$action] = 1;
             }
             catch (PDOException $e)
             {
-                $_SESSION['erro'] = $e -> getMessage();
-                // $_SESSION['erro'] = msgErroSql($e -> getCode(), $e);
+                $_SESSION['error'] = $e -> getMessage();
             }
-
-        }
-
-        function checarValor($valor, $leit_atual, $leit_anteior, $nome_campo, $pagina)
-        {
-            
-            if ($valor != $leit_atual - $leit_anteior)
-            {
-                $_SESSION['erro'] = "O valor no campo {$nome_campo} não pode ser diferente da subtração entre os valores dos campos Leitura atual e Leitura anterior.";
-                header('Location: ' . $pagina);
-                exit;
-            }
-
         }
 
         function buscarContas($conn, $tabela, $mes, $ano)
@@ -118,14 +105,13 @@
 
         function exibirContas($tabela, $tipo_conta, $pagina)
         {
-            
             foreach ($tabela as $linha)
             {
                 if ($tipo_conta == 'variadas')
                 {
                     echo "<br>Data da conta: {$linha['data_conta']} Tipo conta: {$tipo_conta} Nome: {$linha['nome']}<br>";
-                    echo "<a href='../register/{$pagina}.php?id={$linha['id']}&data_conta={$linha['data_conta']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
-                    echo "<a href='../_bd/delete.php?id={$linha['id']}&data_conta={$linha['data_conta']}&tabela={$tipo_conta}'><img src='../_media/delete.png' class='delete' title='Excluir'></a><br>";
+                    echo "<a href='../register/{$pagina}.php?id={$linha['id']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
+                    echo "<a href='../_bd/delete.php?id={$linha['id']}&tabela={$tipo_conta}'><img src='../_media/delete.png' class='delete' title='Excluir'></a><br>";
                 }
                 else
                 {
@@ -136,10 +122,38 @@
             }
         }
 
-        function msgErroSql($codeErro, $e)
+        function buscarDadosConta($tabela, $atributo, $parametro, $valor_parametro)
+        {
+            $conn = getConnection();
+
+            try
+            {
+                $sql = ("SELECT * FROM {$tabela} WHERE {$atributo} = {$parametro}");
+                $stmt = $conn -> prepare($sql);
+                $stmt -> bindParam("{$parametro}", $valor_parametro);
+                $stmt -> execute();
+                $res = $stmt -> fetch(PDO::FETCH_ASSOC);
+            }
+            catch (PDOException $e)
+            {
+                $_SESSION['error'] = $e -> getMessage();
+            }
+            
+            if (isset($res))
+            {
+                return $res;
+            }
+            else
+            {
+                header('Location: ../register/energy.php');
+                exit;
+            }
+        }
+
+        function msgErroSql($codeError, $e)
         {
 
-            switch ($codeErro)
+            switch ($codeError)
             {
                 case 0:
                     $msg = 'DSN ausente ou inválido.';
@@ -155,18 +169,6 @@
                     break;
                 case '42S02':
                     $msg = 'TABLE ausente ou inválida.';
-                    break;
-                case '42S22':
-                    $msg = 'Algum dos campos passados na query não existe ou o seu nome está incorreto.';
-                    break;
-                case '21S01':
-                    $msg = 'Existem algum campo ausente ou incorreto na query.';
-                    break;
-                case 'HY093':
-                    $msg = 'Existe algum parâmetro ausente ou incorreto na query.';
-                    break;
-                case 42000:
-                    $msg = 'Existe algum parâmetro ausente ou incorreto na query.';
                     break;
                 default:
                     $msg = $e -> getMessage();

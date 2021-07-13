@@ -13,8 +13,8 @@
 
             if (empty($_POST['mes']) || empty($_POST['ano']))
             {
-                $_SESSION['erro'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
-                header('Location: ' . $_SESSION['pagina']);
+                $_SESSION['error'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
+                header('Location: ../search.php');
                 exit;
             }
 
@@ -42,7 +42,7 @@
             }
             else
             {
-                $_SESSION['erro'] = 'Não foi encontrado nenhuma conta que contém a data informada.';
+                $_SESSION['error'] = 'Não foi encontrado nenhuma conta que contém a data informada.';
                 header('Location: ../search.php');
                 exit;
             }

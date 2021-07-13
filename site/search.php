@@ -14,15 +14,11 @@
             <input type="number" name="ano" id="ano" min="2000" max="9999" placeholder="0000"><br>
             <input type="submit" value="Buscar">
             <a href="../index.php"><input type="button" value="Voltar" id="button"></a>
-
-            <?php
-                $_SESSION['pagina'] = '../search.php';
-            ?>
         </form>
 
         <?php
             require_once 'functions.php';
-            checarExclusao();
+            checarAcao();
         ?>
 
     </div>
