@@ -11,13 +11,14 @@
         $data_conta = isset($_GET['data_conta']) ? $_GET['data_conta'] : null;
         $data_conta_old = $data_conta;
         $tabela = 'energia';
-        $res = buscarDadosConta($tabela, 'data_conta', ':data_conta', $data_conta);
+        $res = buscarDadosConta($tabela, 'data_conta', ':data_conta', $data_conta, 'energy');
 
         require_once '../header.php';
         echo '<title>Atualizar energia</title>';
     }
     else
     {
+        require_once '../header.php';
         echo '<title>Registar energia</title>';
     }
 
