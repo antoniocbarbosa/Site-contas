@@ -125,7 +125,7 @@
             }
         }
 
-        function buscarDadosConta($tabela, $atributo, $parametro, $valor_parametro)
+        function buscarDadosConta($tabela, $atributo, $parametro, $valor_parametro, $page)
         {
             $conn = getConnection();
 
@@ -142,13 +142,13 @@
                 $_SESSION['error'] = $e -> getMessage();
             }
             
-            if (isset($res))
+            if (isset($res) && !empty($res))
             {
                 return $res;
             }
             else
             {
-                header('Location: ../register/energy.php');
+                header("Location: ../register/{$page}.php");
                 exit;
             }
         }
