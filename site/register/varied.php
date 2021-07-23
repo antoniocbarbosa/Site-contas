@@ -33,13 +33,13 @@
             <label for="nome">Nome da conta*:</label>
             <input type="text" name="nome" id="nome" size="50" maxlength="50" placeholder="Nome do local ou da pessoa com quem foi feito a conta." value="<?php if(isset($res)) {echo $res['nome'];} ?>"><br>
             <label for="valor">Valor*:</label>
-            <input type="number" name="valor" id="valor" min="1" max="20000" step="0.01" placeholder="R$ 00.00" value="<?php if(isset($res)) {echo $res['valor'];} ?>"><br>
+            <input type="number" name="valor" id="valor" min="1" max="20000" step="0.01" placeholder="R$ 00.00" value="<?php if(isset($res)) {echo $res['valor'];} ?>"><br><br>
             <fieldset><legend>Situação:</legend>
                 <input type="radio" name="situacao" id="p" value="P" <?php isset($res) && !empty($res) && $res['situacao'] == 'P' ? print 'checked' : ''?>>
                 <label for="p">Conta paga</label><br>
                 <input type="radio" name="situacao" id="np" value="NP" <?php isset($res) && !empty($res) && $res['situacao'] != 'P' ? print 'checked' : (!isset($res) ? print 'checked' : '')?>> 
                 <label for="np">Conta não paga</label>
-            </fieldset>
+            </fieldset><br>
             <label for="observacao">Observação:</label><br>
             <textarea name="observacao" id="observacao" cols="60" rows="6" maxlength="200" placeholder="Alguma característica da conta." style="resize: none;"><?php if(isset($res) && !empty($res)) {echo $res['observacao'];} ?></textarea><br>
             <input type="text" name="page" id="page" hidden>

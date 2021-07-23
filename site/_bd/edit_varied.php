@@ -39,10 +39,10 @@
             $stmt = $conn -> prepare($sql);
 
             $data_conta = $_POST['data_conta'];
-            $nome = addslashes(trim(preg_replace('/ + /', ' ', $_POST['nome'])));
+            $nome = addslashes(trim(preg_replace('/ +/', ' ', $_POST['nome'])));
             $valor = (float) $_POST['valor'];
             $situacao = $_POST['situacao'];
-            $observacao = addslashes(isset($_POSTeee['observacao']) ? trim(preg_replace('/ + /', ' ', $_POST['observacao'])) : null);
+            $observacao = addslashes(isset($_POST['observacao']) ? trim(preg_replace('/ +/', ' ', $_POST['observacao'])) : null);
 
             $stmt -> bindParam(':data_conta', $data_conta);
             $stmt -> bindParam(':nome', $nome);
