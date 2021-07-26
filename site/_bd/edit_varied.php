@@ -19,6 +19,24 @@
                 header('Location: ' . $page);
                 exit;
             }
+
+            $data_conta = $_POST['data_conta'];
+            $valor = (float) $_POST['valor'];
+            $situacao = $_POST['situacao'];
+
+            //Caracteres especiais para remoção
+            $patterns = ['/\'/', '/"/', '/!/', '/@/', '/#/', '/\$/', '/%/', '/¨/', '/&/', '/\*/', '/\(/', '/\)/', '/_/', '/-/', '/\+/', '/=/', '/§/', '/\\\/', '/\|/', '/</', '/>/', '/:/', '/;/', '/\?/', '/\//', '/°/', '/\[/', '/\]/', '/{/', '/}/', '/ª/', '/º/', '/¹/', '/²/', '/³/', '/£/', '/¢/', '/¬/'];
+            
+            //Remove os caracteres especiais e os espaços em branco em excesso da string
+            $nome = trim(preg_replace('/ +/', ' ', preg_replace($patterns, '', $_POST['nome'])));
+            $observacao = trim(preg_replace('/ +/', ' ', preg_replace($patterns, '', $_POST['observacao'])));
+
+            if (empty($nome))
+            {
+                $_SESSION['error'] = 'Só pode informar letras e números no campo nome.';
+                header('Location: ' . $page);
+                exit;
+            }
             
             if ($_SESSION['opc'] == 1) //Registrar contas variadas
             {
@@ -37,12 +55,6 @@
             }
 
             $stmt = $conn -> prepare($sql);
-
-            $data_conta = $_POST['data_conta'];
-            $nome = addslashes(trim(preg_replace('/ +/', ' ', $_POST['nome'])));
-            $valor = (float) $_POST['valor'];
-            $situacao = $_POST['situacao'];
-            $observacao = addslashes(isset($_POST['observacao']) ? trim(preg_replace('/ +/', ' ', $_POST['observacao'])) : null);
 
             $stmt -> bindParam(':data_conta', $data_conta);
             $stmt -> bindParam(':nome', $nome);

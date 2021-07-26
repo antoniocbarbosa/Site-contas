@@ -39,7 +39,12 @@
             $emissao_2via = (float) $_POST['emissao_2via'];
             $total = (float) $_POST['total'];
             $situacao = $_POST['situacao'];
-            $observacao = addslashes(isset($_POST['observacao']) ? trim(preg_replace('/ +/', ' ', $_POST['observacao'])) : null);
+            
+            //Caracteres especiais para remoção
+            $patterns = ['/\'/', '/"/', '/!/', '/@/', '/#/', '/\$/', '/%/', '/¨/', '/&/', '/\*/', '/\(/', '/\)/', '/_/', '/-/', '/\+/', '/=/', '/§/', '/\\\/', '/\|/', '/</', '/>/', '/:/', '/;/', '/\?/', '/\//', '/°/', '/\[/', '/\]/', '/{/', '/}/', '/ª/', '/º/', '/¹/', '/²/', '/³/', '/£/', '/¢/', '/¬/'];
+            
+            //Remove os caracteres especiais e os espaços em branco em excesso da string
+            $observacao = trim(preg_replace('/ +/', ' ', preg_replace($patterns, '', $_POST['observacao'])));
             
             if ($_SESSION['opc'] == 1) //Registrar conta de água
             {
