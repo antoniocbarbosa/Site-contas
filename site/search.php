@@ -7,7 +7,7 @@
     
         <h1>Buscar contas</h1>
 
-        <form action="../_bd/list.php" method="POST">
+        <form action="../_bd/list.php" method="GET">
             <label for="mes">Mês*: </label>
             <input type="number" name="mes" id="mes" min="1" max="12" placeholder="0"><br>
             <label for="ano">Ano*: </label>

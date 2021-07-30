@@ -93,9 +93,26 @@
             }
         }
 
-        function buscarContas($conn, $tabela, $mes, $ano)
+        function buscarContas($conn, $tabela, $mes, $ano, $filters)
         {
-            $tabela = ("SELECT * FROM {$tabela} WHERE YEAR(data_conta) = :ano AND MONTH(data_conta) = :mes");
+            /* Condições para realizar a busca de acordo com o filtro escolhido pelo usuário */
+            
+            //Filtros selecionados: nenhum, água, energia e variadas.
+            if (empty($filters) || (in_array('agua', $filters) || in_array('energia', $filters) || in_array('variadas', $filters)) && !in_array('P', $filters) && !in_array('NP', $filters))
+            {
+                $tabela = ("SELECT * FROM {$tabela} WHERE YEAR(data_conta) = :ano AND MONTH(data_conta) = :mes");
+            }
+            //Filtros selecionados: contas pagas, água + contas pagas, energia + contas pagas e variadas + contas pagas.
+            elseif (in_array('P', $filters) || (in_array('agua', $filters) || in_array('energia', $filters) || in_array('variadas', $filters)) && in_array('P', $filters))
+            {
+                $tabela = ("SELECT * FROM {$tabela} WHERE YEAR(data_conta) = :ano AND MONTH(data_conta) = :mes AND situacao = 'P'");
+            }
+            //Filtros selecionados: contas não pagas, água + contas não pagas, energia + contas não pagas e variadas + contas não pagas.
+            elseif (in_array('NP', $filters) || (in_array('agua', $filters) || in_array('energia', $filters) || in_array('variadas', $filters)) && in_array('NP', $filters))
+            {
+                $tabela = ("SELECT * FROM {$tabela} WHERE YEAR(data_conta) = :ano AND MONTH(data_conta) = :mes AND situacao = 'NP'");
+            }
+
             $stmt = $conn -> prepare($tabela);
             $stmt -> bindParam(':mes', $mes);
             $stmt -> bindParam(':ano', $ano);
@@ -107,7 +124,7 @@
         {
             foreach ($tabela as $linha)
             {
-                if ($tipo_conta == 'variadas')
+                if ($tipo_conta == 'Variadas')
                 {
                     echo "<br>Data da conta: {$linha['data_conta']} Tipo conta: {$tipo_conta} Valor: R$ " . number_format($linha['valor'], 2, ",", ".") . " Situação:";
                     $linha['situacao'] == 'P' ? print ' Paga' : print ' Não paga';
