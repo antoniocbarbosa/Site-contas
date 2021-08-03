@@ -13,16 +13,6 @@
 
         if ($conn)
         {
-            if (empty($_POST['padrao_imovel']) || empty($_POST['categoria_imovel']) || 
-                empty($_POST['leit_anterior']) || empty($_POST['leit_atual']) || 
-                empty($_POST['volume_m3']) || empty($_POST['data_conta']) || 
-                empty($_POST['valor_consumo']) || empty($_POST['total']))
-            {
-                $_SESSION['error'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
-                header('Location: ' . $page);
-                exit;
-            }
-
             $padrao_imovel = $_POST['padrao_imovel'];
             $categoria_imovel = $_POST['categoria_imovel'];
             $leit_anterior = $_POST['leit_anterior'];

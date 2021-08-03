@@ -13,17 +13,6 @@
 
         if ($conn)
         {
-
-            if (empty($_POST['data_conta']) || empty($_POST['ilum_public']) || 
-                empty($_POST['tarifa_kWh']) || empty($_POST['valor_consumo']) || 
-                empty($_POST['total']) || empty($_POST['leit_anterior']) || 
-                empty($_POST['leit_atual']) || empty($_POST['consumo_kWh']))
-            {
-                $_SESSION['error'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
-                header('Location: ' . $page);
-                exit;
-            }
-
             $data_conta = $_POST['data_conta'];
             $tarifa_band_amar = (float) $_POST['tarifa_band_amar'];
             $valor_band_amar = (float) $_POST['valor_band_amar'];

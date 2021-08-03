@@ -13,13 +13,6 @@
 
         if ($conn)
         {
-            if (empty($_POST['data_conta']) || empty($_POST['nome']) || empty($_POST['valor']))
-            {
-                $_SESSION['error'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
-                header('Location: ' . $page);
-                exit;
-            }
-
             $data_conta = $_POST['data_conta'];
             $valor = (float) $_POST['valor'];
             $situacao = $_POST['situacao'];

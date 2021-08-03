@@ -124,7 +124,7 @@
         {
             foreach ($tabela as $linha)
             {
-                if ($tipo_conta == 'Variadas')
+                if ($tipo_conta == 'variadas')
                 {
                     echo "<br>Data da conta: {$linha['data_conta']} Tipo conta: {$tipo_conta} Valor: R$ " . number_format($linha['valor'], 2, ",", ".") . " Situação:";
                     $linha['situacao'] == 'P' ? print ' Paga' : print ' Não paga';

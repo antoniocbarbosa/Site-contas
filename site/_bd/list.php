@@ -10,13 +10,6 @@
 
         if ($conn)
         {
-            if (empty($_GET['mes']) || empty($_GET['ano']))
-            {
-                $_SESSION['error'] = 'Não pode deixar nenhum campo obrigatório em branco. Os campos obrigatórios tem um asterisco * na frente do nome.';
-                header('Location: ../search.php');
-                exit;
-            }
-
             $mes = $_GET['mes'];
             $ano = $_GET['ano'];
             $filters = isset($_POST['filters']) ? $_POST['filters'] : null;
@@ -122,9 +115,9 @@
                     unset($_SESSION['error']);
                 }
 
-                exibirContas($tbAgua, 'Água', 'water');
-                exibirContas($tbEnergia, 'Energia', 'energy');
-                exibirContas($tbVariadas, 'Variadas', 'varied');
+                exibirContas($tbAgua, 'agua', 'water');
+                exibirContas($tbEnergia, 'energia', 'energy');
+                exibirContas($tbVariadas, 'variadas', 'varied');
 
                 echo '<button id="btnTop"><img src="../_media/top.png" title="Topo"></button>';
             }

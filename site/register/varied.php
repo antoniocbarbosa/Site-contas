@@ -27,13 +27,13 @@
     <div class="register">
 
         <form action="../_bd/edit_varied.php" method="POST">
-            <label for="data_conta">Data da conta*:</label>
-            <input type="date" name="data_conta" id="data_conta" min="2000-01-01" value="<?php if(isset($res)) {echo $res['data_conta'];} ?>"><br>
+            <label for="data_conta">Data da conta:</label>
+            <input type="date" name="data_conta" id="data_conta" min="2000-01-01" value="<?php if(isset($res)) {echo $res['data_conta'];} ?>" required><br>
             <input type="number" name="id" id="id" value="<?php if (isset($res)) {echo $id;} ?>" hidden>
-            <label for="nome">Nome da conta*:</label>
-            <input type="text" name="nome" id="nome" size="50" maxlength="50" placeholder="Nome do local ou da pessoa com quem foi feito a conta." value="<?php if(isset($res)) {echo $res['nome'];} ?>"><br>
-            <label for="valor">Valor*:</label>
-            <input type="number" name="valor" id="valor" min="1" max="20000" step="0.01" placeholder="R$ 00.00" value="<?php if(isset($res)) {echo $res['valor'];} ?>"><br><br>
+            <label for="nome">Nome da conta:</label>
+            <input type="text" name="nome" id="nome" size="50" maxlength="50" placeholder="Nome do local ou da pessoa com quem foi feito a conta." value="<?php if(isset($res)) {echo $res['nome'];} ?>" required><br>
+            <label for="valor">Valor:</label>
+            <input type="number" name="valor" id="valor" min="1" max="20000" step="0.01" placeholder="R$ 00.00" value="<?php if(isset($res)) {echo $res['valor'];} ?>" required><br><br>
             <fieldset><legend>Situação:</legend>
                 <input type="radio" name="situacao" id="p" value="P" <?php isset($res) && !empty($res) && $res['situacao'] == 'P' ? print 'checked' : ''?>>
                 <label for="p">Conta paga</label><br>
