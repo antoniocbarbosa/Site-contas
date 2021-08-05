@@ -1,10 +1,10 @@
-.edit, .delete {
+.view, .edit, .delete {
 	width: 26px;
 	height: 26px;
 	margin-top: 5px;
 }
 
-.delete {
+.edit, .delete {
 	margin-left: 5px;
 }
 

@@ -120,7 +120,7 @@
             return $stmt -> fetchAll();
         }
 
-        function exibirContas($tabela, $tipo_conta, $pagina)
+        function exibirContas($tabela, $tipo_conta, $page)
         {
             foreach ($tabela as $linha)
             {
@@ -129,14 +129,16 @@
                     echo "<br>Data da conta: {$linha['data_conta']} Tipo conta: {$tipo_conta} Valor: R$ " . number_format($linha['valor'], 2, ",", ".") . " Situação:";
                     $linha['situacao'] == 'P' ? print ' Paga' : print ' Não paga';
                     echo "<br>Nome: {$linha['nome']}";
-                    echo "<br><a href='../register/{$pagina}.php?id={$linha['id']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
+                    echo "<br><a href='../register/{$page}.php?id={$linha['id']}&opc=3'><img src='../_media/view.png' class='view' title='Visualizar'></a>";
+                    echo "<a href='../register/{$page}.php?id={$linha['id']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
                     echo "<a href='../_bd/delete.php?id={$linha['id']}&tabela={$tipo_conta}'><img src='../_media/delete.png' class='delete' title='Excluir'></a><br>";
                 }
                 else
                 {
                     echo "<br>Data da conta: {$linha['data_conta']} Tipo conta: {$tipo_conta} Valor: R$ " . number_format($linha['total'], 2, ",", ".") . " Situação:";
                     $linha['situacao'] == 'P' ? print ' Paga' : print ' Não paga';
-                    echo "<br><a href='../register/{$pagina}.php?data_conta={$linha['data_conta']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
+                    echo "<br><a href='../register/{$page}.php?data_conta={$linha['data_conta']}&opc=3'><img src='../_media/view.png' class='view' title='Visualizar'></a>";
+                    echo "<a href='../register/{$page}.php?data_conta={$linha['data_conta']}&opc=2'><img src='../_media/edit.png' class='edit' title='Editar'></a>";
                     echo "<a href='../_bd/delete.php?data_conta={$linha['data_conta']}&tabela={$tipo_conta}'><img src='../_media/delete.png' class='delete' title='Excluir'></a><br>";
                 }
             }
